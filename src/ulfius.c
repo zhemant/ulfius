@@ -129,6 +129,8 @@ static void * ulfius_uri_logger (void * cls, const char * uri) {
 	UNUSED(cls);
 	
   if (con_info != NULL) {
+    con_info->post_processor = NULL;
+    con_info->has_post_processor = 0;
     con_info->callback_first_iteration = 1;
     con_info->u_instance = NULL;
     u_map_init(&con_info->map_url_initial);
@@ -196,22 +198,26 @@ static int ulfius_get_body_from_response(struct _u_response * response, void ** 
  * mhd_request_completed
  * function used to clean data allocated after a web call is complete
  */
-static void mhd_request_completed (void *cls, struct MHD_Connection *connection,
-                        void **con_cls, enum MHD_RequestTerminationCode toe) {
-  struct connection_info_struct *con_info = *con_cls;
+static void mhd_request_completed (void * cls, struct MHD_Connection * connection,
+                        void ** con_cls, enum MHD_RequestTerminationCode toe) {
+  struct connection_info_struct * con_info = * con_cls;
 	UNUSED(toe);
 	UNUSED(connection);
 	UNUSED(cls);
 	
   if (NULL == con_info) {
     return;
-  }
-  if (NULL != con_info && con_info->has_post_processor && con_info->post_processor != NULL) {
+  } else  if (con_info->has_post_processor && con_info->post_processor != NULL) {
     MHD_destroy_post_processor (con_info->post_processor);
+    con_info->post_processor = NULL;
+    con_info->has_post_processor = 0;
   }
   ulfius_clean_request_full(con_info->request);
-  u_map_clean(&con_info->map_url_initial);
   con_info->request = NULL;
+  u_map_clean(&con_info->map_url_initial);
+  con_info->map_url_initial.keys = NULL;
+  con_info->map_url_initial.values = NULL;
+  con_info->map_url_initial.lengths = NULL;
   o_free(con_info);
   con_info = NULL;
   *con_cls = NULL;

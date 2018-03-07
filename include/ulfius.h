@@ -230,9 +230,9 @@ struct _u_endpoint {
 struct _u_instance {
   struct MHD_Daemon          *  mhd_daemon;
   int                           status;
-  unsigned int                          port;
+  unsigned int                  port;
   struct sockaddr_in          * bind_address;
-  int                           nb_endpoints;
+  unsigned int                  nb_endpoints;
   char                        * default_auth_realm;
   struct _u_endpoint          * endpoint_list;
   struct _u_endpoint          * default_endpoint;

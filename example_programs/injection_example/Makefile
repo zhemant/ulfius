@@ -37,3 +37,6 @@ injection_example: libulfius.so injection_example.o
 
 test: injection_example
 	LD_LIBRARY_PATH=$(ULFIUS_LOCATION):${LD_LIBRARY_PATH} ./injection_example
+
+memcheck: debug
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./injection_example 2>valgrind.txt

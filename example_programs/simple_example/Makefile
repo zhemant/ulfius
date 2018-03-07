@@ -40,5 +40,8 @@ simple_example: libulfius.so simple_example.o
 test: simple_example
 	LD_LIBRARY_PATH=$(ULFIUS_LOCATION):${LD_LIBRARY_PATH} ./simple_example
 
+memcheck: simple_example
+	LD_LIBRARY_PATH=$(ULFIUS_LOCATION):${LD_LIBRARY_PATH} valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./simple_example 2>valgrind.txt
+
 static: simple_example.o
 	$(CC) -o simple_example simple_example.o $(PREFIX)/lib/liborcania.a $(PREFIX)/lib/libyder.a $(PREFIX)/lib/libulfius.a -ljansson -lmicrohttpd -lpthread -lgnutls
