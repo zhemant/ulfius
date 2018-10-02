@@ -19,8 +19,8 @@ CFLAGS=-c -Wall -I$(LIBYDER_LOCATION) -D_REENTRANT $(ADDITIONALFLAGS)
 ULFIUS_LOCATION=../../src
 LIBS=-L$(LIBYDER_LOCATION) -lc -lulfius -lyder -lorcania -L$(ULFIUS_LOCATION) -ljansson
 
-all: petstore_add.c
-	gcc -c -Wall -o petstore_add petstore_add.c -lulfius -lyder -lorcania -ljansson
+all: petstore_add.o
+	gcc petstore_add.c -lulfius -lyder -ljansson -lpthread -lgnutls -lmicrohttpd -lorcania -o petstore_add
 
 clean:
 	rm -f *.o petstore_add

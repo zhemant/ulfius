@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <ulfius.h>
 #include <string.h>
-#include "cJSON.h"
 
 #define PORT 8080
 
