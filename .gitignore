@@ -2,6 +2,8 @@
 *.so
 *.so.*
 *.a
+build/
+lib/*
 example_programs/auth_example/auth_client
 example_programs/auth_example/auth_server
 example_programs/injection_example/injection_example
